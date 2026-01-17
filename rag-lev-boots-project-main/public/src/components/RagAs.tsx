@@ -21,6 +21,7 @@ import {
   Tabs,
   SimpleGrid,
   Select,
+  Flex,
 } from '@mantine/core';
 import { LineChart, BarChart } from '@mantine/charts';
 import {
@@ -621,17 +622,18 @@ const RagAs: React.FC = () => {
               </Center>
             ) : (
               <>
-                <Paper withBorder p="md" style={{ width: '100%', overflow: 'hidden' }}>
-                  <div style={{ width: '100%', height: '400px' }}>
+                <Flex direction="column" gap="md">
+                  <Paper withBorder p="md" style={{ flex: 1, minHeight: '400px' }}>
                     <LineChart
                       data={chartData}
                       dataKey="date"
                       series={[{ name: 'Average Score', color: 'blue' }]}
                       curveType="monotone"
+                      height={350}
                     />
-                  </div>
-                </Paper>
-                <Paper withBorder p="md">
+                  </Paper>
+                </Flex>
+                <Paper withBorder p="md" mt="md">
                   <Title order={4} mb="md">Trends Data</Title>
                   <Table striped highlightOnHover>
                     <Table.Thead>
