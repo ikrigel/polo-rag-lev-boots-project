@@ -3,6 +3,9 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import ragRoutes from './routes/ragRoutes';
+import conversationalRoutes from './routes/conversationalRoutes';
+import ragasRoutes from './routes/ragasRoutes';
+import settingsRoutes from './routes/settingsRoutes';
 import { initializeDB } from './models/index';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -13,7 +16,17 @@ const PORT = process.env.PORT || 3030;
 
 app.use(express.json());
 
+// Core RAG endpoints
 app.use('/api', ragRoutes);
+
+// Conversational RAG endpoints
+app.use('/api/conversational', conversationalRoutes);
+
+// RAGAS Evaluation endpoints
+app.use('/api/ragas', ragasRoutes);
+
+// Settings endpoints
+app.use('/api/settings', settingsRoutes);
 
 app.use(express.static(path.join(__dirname, '../public/dist')));
 
