@@ -97,6 +97,7 @@ window.addEventListener('unhandledrejection', (event) => {
 const originalConsoleError = console.error;
 let errorCount = 0;
 const MAX_LOGGED_ERRORS = 10;
+const loggedErrorMessages = new Set<string>();
 
 console.error = function (...args: any[]) {
   originalConsoleError.apply(console, args);
@@ -104,18 +105,24 @@ console.error = function (...args: any[]) {
   // Only log critical errors to avoid memory issues
   const message = args[0]?.toString?.() || '';
 
-  if (errorCount < MAX_LOGGED_ERRORS &&
-      message &&
-      !message.includes('[Logger]') &&
-      !message.includes('width') &&
-      !message.includes('height') &&
-      !message.includes('sticky') &&
-      !message.includes('The width')) {
+  // Check if this is a duplicate error message
+  const isIgnoredError =
+    !message ||
+    message.includes('[Logger]') ||
+    message.includes('width') ||
+    message.includes('height') ||
+    message.includes('sticky') ||
+    message.includes('The width') ||
+    message === 'Console error'; // Don't log generic "Console error"
 
+  const isDuplicate = loggedErrorMessages.has(message);
+
+  if (errorCount < MAX_LOGGED_ERRORS && !isIgnoredError && !isDuplicate) {
     try {
       logger.error('Console error', {
         message: message.substring(0, 200)
       });
+      loggedErrorMessages.add(message);
       errorCount++;
     } catch (e) {
       // Prevent logging errors from crashing the app
