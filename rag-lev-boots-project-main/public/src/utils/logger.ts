@@ -93,18 +93,33 @@ window.addEventListener('unhandledrejection', (event) => {
   });
 });
 
-// Intercept console.error to capture all error logs
+// Intercept console.error to capture critical errors only
 const originalConsoleError = console.error;
+let errorCount = 0;
+const MAX_LOGGED_ERRORS = 10;
+
 console.error = function (...args: any[]) {
   originalConsoleError.apply(console, args);
 
-  // Log to backend if it looks like an error we should track
-  const message = args[0]?.toString?.() || JSON.stringify(args[0]);
-  if (message && !message.includes('[Logger]')) {
-    logger.error('Console error', {
-      args: args.map(arg =>
-        typeof arg === 'object' ? JSON.stringify(arg) : arg
-      )
-    });
+  // Only log critical errors to avoid memory issues
+  const message = args[0]?.toString?.() || '';
+
+  if (errorCount < MAX_LOGGED_ERRORS &&
+      message &&
+      !message.includes('[Logger]') &&
+      !message.includes('width') &&
+      !message.includes('height') &&
+      !message.includes('sticky') &&
+      !message.includes('The width')) {
+
+    try {
+      logger.error('Console error', {
+        message: message.substring(0, 200)
+      });
+      errorCount++;
+    } catch (e) {
+      // Prevent logging errors from crashing the app
+      originalConsoleError('[Logger] Failed to log error');
+    }
   }
 };
