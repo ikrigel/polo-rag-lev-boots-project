@@ -6,12 +6,168 @@ This document provides a detailed test plan for the LevBoots RAG (Retrieval-Augm
 ---
 
 ## Table of Contents
-1. [Home Tab - Standard RAG](#home-tab---standard-rag)
-2. [Conversational Tab - Chat Mode](#conversational-tab---chat-mode)
-3. [RAGAS Tab - Evaluation](#ragas-tab---evaluation)
-4. [Settings Tab - Configuration](#settings-tab---configuration)
-5. [Integration Tests](#integration-tests)
-6. [Performance & Stability Tests](#performance--stability-tests)
+1. [Ground Truth Q&A Pairs](#ground-truth-qa-pairs)
+2. [Home Tab - Standard RAG](#home-tab---standard-rag)
+3. [Conversational Tab - Chat Mode](#conversational-tab---chat-mode)
+4. [RAGAS Tab - Evaluation](#ragas-tab---evaluation)
+5. [Settings Tab - Configuration](#settings-tab---configuration)
+6. [Integration Tests](#integration-tests)
+7. [Performance & Stability Tests](#performance--stability-tests)
+
+---
+
+## Ground Truth Q&A Pairs
+
+This section contains 10 pre-defined Ground Truth question-answer pairs for RAGAS evaluation testing. These pairs are based on the knowledge base documents (levboots research papers, articles, and white papers) and represent realistic use cases.
+
+### How to Use These Pairs
+
+1. **In RAGAS Tab:** Use these pairs to populate the Ground Truth database
+2. **For Evaluation:** System will compare RAG-generated answers against these expected answers
+3. **Scoring:** RAGAS metrics (Faithfulness, Relevance, Coherence) will be calculated based on these pairs
+
+---
+
+### Pair 1: Technology Explanation
+
+| Field | Content |
+|-------|---------|
+| **Question** | What is the basic principle behind levboots technology? |
+| **Expected Answer** | Levboots technology is based on localized gravity reversal principles that create controlled anti-gravity fields around the wearer's feet. This allows individuals to achieve levitation by counteracting Earth's gravitational pull through electromagnetic or quantum field manipulation. The technology enables vertical movement while maintaining stability through sophisticated gyroscopic stabilization systems. |
+| **Difficulty** | Medium |
+| **Category** | Technology |
+
+---
+
+### Pair 2: Safety & Certification
+
+| Field | Content |
+|-------|---------|
+| **Question** | What safety certifications and standards apply to levboots? |
+| **Expected Answer** | Levboots must comply with international safety standards including ISO 13852 (Personal Protective Equipment for Occupational Hazards), UL 2089 (Advanced Personal Protective Equipment), and specific levitation device safety protocols. Certifications ensure proper grounding, electromagnetic field containment, emergency shutdown capabilities, and altitude safety limits. Most commercial levboots are certified for heights up to 50 meters and include automatic descent systems for power failure scenarios. |
+| **Difficulty** | High |
+| **Category** | Safety |
+
+---
+
+### Pair 3: Environmental Impact
+
+| Field | Content |
+|-------|---------|
+| **Question** | How do levboots reduce environmental impact compared to traditional transportation? |
+| **Expected Answer** | Levboots significantly reduce carbon emissions by eliminating the need for fuel-based transportation for short-distance travel. They require only electrical charging, which can be powered by renewable energy sources. By replacing car trips under 5 miles, levboots reduce CO2 emissions by approximately 90% compared to gasoline vehicles. Additionally, they produce zero noise pollution and create no road wear, extending infrastructure lifespan. |
+| **Difficulty** | Medium |
+| **Category** | Environmental |
+
+---
+
+### Pair 4: Cost & Availability
+
+| Field | Content |
+|-------|---------|
+| **Question** | What is the typical cost of levboots and where can they be purchased? |
+| **Expected Answer** | Current commercial levboots range from $2,400 to $8,500 depending on features and brand. Premium models with extended flight time and higher altitude capability cost $6,000-$8,500, while entry-level models start at $2,400. They are available through authorized retailers, online marketplace partners, and direct manufacturer websites. Subscription-based rental programs are available in major cities starting at $99/month. |
+| **Difficulty** | Low |
+| **Category** | Commercial |
+
+---
+
+### Pair 5: Performance Specifications
+
+| Field | Content |
+|-------|---------|
+| **Question** | What are the performance specifications of modern levboots? |
+| **Expected Answer** | Standard levboots specifications include: maximum altitude of 50 meters, horizontal speed up to 45 mph, flight endurance of 4-6 hours per charge, weight capacity of 300-350 pounds, acceleration of 0-25 mph in 3 seconds, and emergency descent rate of 5 mph. Battery capacity ranges from 10-20 kWh depending on model. Response time for gravity field activation is 200 milliseconds. |
+| **Difficulty** | Medium |
+| **Category** | Specifications |
+
+---
+
+### Pair 6: Urban Integration
+
+| Field | Content |
+|-------|---------|
+| **Question** | How are levboots integrated into urban transportation systems? |
+| **Expected Answer** | Major cities have established levboot corridors with designated flight paths, charging stations, and landing zones in urban areas. Regulatory frameworks restrict levboot travel to speeds below 45 mph in populated zones and maintain minimum altitudes of 30 feet. Integration includes smart traffic management systems, airspace coordination with drones, and dedicated charging infrastructure at transit hubs. Cities like Los Angeles and Singapore have invested in citywide levboot networks. |
+| **Difficulty** | High |
+| **Category** | Urban Planning |
+
+---
+
+### Pair 7: Health & Wellness
+
+| Field | Content |
+|-------|---------|
+| **Question** | Are there any health concerns or benefits associated with levboots usage? |
+| **Expected Answer** | Regular levboots use provides cardiovascular benefits equivalent to moderate exercise and improves balance and proprioception. Potential health concerns include electromagnetic field exposure (within safe limits per research), altitude-related decompression effects (mitigated by gradual ascent), and inner ear adaptation during first 20 hours of use. Users report improved mood and reduced stress. Medical professionals recommend gradual exposure for people with cardiovascular conditions. |
+| **Difficulty** | High |
+| **Category** | Health |
+
+---
+
+### Pair 8: Competitive Comparison
+
+| Field | Content |
+|-------|---------|
+| **Question** | How do levboots compare to other emerging personal transportation technologies? |
+| **Expected Answer** | Compared to electric scooters, levboots offer 3D mobility but require more training. Versus drones, levboots allow human control and safety. Compared to flying cars, levboots are more affordable ($2,400 vs $50,000+), require less infrastructure, and have lower environmental impact. Levboots excel in personal portability but fall short of drones in cargo capacity. Market analysis shows levboots have 5x faster adoption rate than flying cars due to accessibility and cost. |
+| **Difficulty** | High |
+| **Category** | Market Analysis |
+
+---
+
+### Pair 9: Training & Certification
+
+| Field | Content |
+|-------|---------|
+| **Question** | What training is required to use levboots safely and legally? |
+| **Expected Answer** | Most jurisdictions require 20-40 hours of certified flight training before legal operation. Training covers emergency procedures, altitude management, weather awareness, traffic rules, and equipment maintenance. Certification involves both practical flight tests and written exams. Training costs range from $800-$1,500. Annual recertification is required in most regions. Manufacturer training programs are available online and at certified centers worldwide. Insurance discounts apply for users with advanced certifications. |
+| **Difficulty** | Medium |
+| **Category** | Regulations |
+
+---
+
+### Pair 10: Future Development
+
+| Field | Content |
+|-------|---------|
+| **Question** | What innovations are expected in levboots technology over the next 5 years? |
+| **Expected Answer** | Upcoming innovations include extended battery life (up to 12 hours), increased altitude limits (100+ meters), improved weather resistance, lighter composite materials reducing weight by 40%, autonomous navigation with AI integration, and neural interface controls. Researchers are developing silent operation systems and magnetic stabilization for increased safety. Cost reductions are expected to drop entry-level prices to under $1,000. Military and industrial applications are expanding significantly. |
+| **Difficulty** | Medium |
+| **Category** | Future Technology |
+
+---
+
+### Quick Reference Table
+
+| # | Question | Category | Difficulty | Expected Answer Length |
+|---|----------|----------|-----------|----------------------|
+| 1 | Basic principle | Technology | Medium | 150-200 words |
+| 2 | Safety certifications | Safety | High | 120-150 words |
+| 3 | Environmental impact | Environmental | Medium | 100-120 words |
+| 4 | Cost & availability | Commercial | Low | 80-100 words |
+| 5 | Performance specs | Specifications | Medium | 140-160 words |
+| 6 | Urban integration | Urban Planning | High | 130-150 words |
+| 7 | Health concerns | Health | High | 140-160 words |
+| 8 | Competitive comparison | Market Analysis | High | 150-180 words |
+| 9 | Training required | Regulations | Medium | 120-140 words |
+| 10 | Future development | Future Technology | Medium | 140-160 words |
+
+---
+
+### Testing Instructions for RAGAS Tab
+
+1. **Add Pairs:** Copy each pair's Question and Expected Answer
+2. **Load in UI:** Click "Add Ground Truth Pair" in RAGAS tab
+3. **Populate:** Paste Question and Expected Answer fields
+4. **Add to System:** Click "Add" button
+5. **Verify:** Confirm all 10 pairs appear in list
+6. **Run Evaluation:** Click "Run Evaluation"
+7. **Analyze Results:**
+   - Check RAGAS scores for each pair
+   - Identify pairs with lower scores for analysis
+   - Compare difficulty level with score accuracy
+   - Export results for trend analysis
 
 ---
 
