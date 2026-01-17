@@ -110,6 +110,8 @@ const Settings: React.FC = () => {
 
   const saveSettings = () => {
     localStorage.setItem('user_settings', JSON.stringify(settings));
+    // Dispatch custom event to notify theme listeners (main.tsx)
+    window.dispatchEvent(new Event('themeChanged'));
     setHasChanges(false);
     setSaveMessage('Settings saved successfully!');
     setTimeout(() => setSaveMessage(null), 3000);
@@ -118,6 +120,8 @@ const Settings: React.FC = () => {
   const resetSettings = () => {
     setSettings(DEFAULT_SETTINGS);
     localStorage.removeItem('user_settings');
+    // Dispatch custom event to notify theme listeners (main.tsx)
+    window.dispatchEvent(new Event('themeChanged'));
     setHasChanges(false);
     setSaveMessage('Settings reset to defaults!');
     setTimeout(() => setSaveMessage(null), 3000);

@@ -27,51 +27,53 @@ function Root() {
   const [colorScheme, setColorScheme] = useState<'light' | 'dark' | undefined>(undefined);
 
   useEffect(() => {
-    // Get saved theme preference from localStorage
-    const savedSettings = localStorage.getItem('rag_app_settings');
-    if (savedSettings) {
-      try {
-        const settings = JSON.parse(savedSettings);
-        const theme = settings.theme || 'dark';
-
-        if (theme === 'auto') {
-          // Use system preference
-          setColorScheme(undefined);
-        } else {
-          setColorScheme(theme);
-        }
-        logger.info('Theme preference loaded', { theme });
-      } catch (e) {
-        logger.error('Failed to load theme preference', e);
-        setColorScheme('dark');
-      }
-    } else {
-      // Default to dark if no preference saved
-      setColorScheme('dark');
-    }
-
-    // Listen for storage changes to apply theme in real-time
-    const handleStorageChange = () => {
-      const updatedSettings = localStorage.getItem('rag_app_settings');
-      if (updatedSettings) {
+    // Function to apply theme from localStorage
+    const applyTheme = () => {
+      const savedSettings = localStorage.getItem('user_settings');
+      if (savedSettings) {
         try {
-          const settings = JSON.parse(updatedSettings);
+          const settings = JSON.parse(savedSettings);
           const theme = settings.theme || 'dark';
 
           if (theme === 'auto') {
+            // Use system preference
             setColorScheme(undefined);
           } else {
             setColorScheme(theme);
           }
-          logger.info('Theme preference updated', { theme });
+          logger.info('Theme preference loaded', { theme });
         } catch (e) {
-          logger.error('Failed to update theme preference', e);
+          logger.error('Failed to load theme preference', e);
+          setColorScheme('dark');
         }
+      } else {
+        // Default to dark if no preference saved
+        setColorScheme('dark');
       }
     };
 
+    // Apply theme on initial load
+    applyTheme();
+
+    // Listen for storage changes to apply theme in real-time
+    const handleStorageChange = () => {
+      logger.info('Storage change detected, reloading theme');
+      applyTheme();
+    };
+
+    // Also listen for custom storage event for same-tab updates
+    const handleCustomStorageChange = () => {
+      logger.info('Custom theme change event detected');
+      applyTheme();
+    };
+
     window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    window.addEventListener('themeChanged', handleCustomStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('themeChanged', handleCustomStorageChange);
+    };
   }, []);
 
   return (
