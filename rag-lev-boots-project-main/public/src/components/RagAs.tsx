@@ -26,7 +26,7 @@ import { LineChart, BarChart } from '@mantine/charts';
 import {
   IconPlus,
   IconTrash,
-  IconPlay,
+  IconPlayerPlay,
   IconDownload,
 } from '@tabler/icons-react';
 
@@ -329,7 +329,7 @@ const RagAs: React.FC = () => {
               <Group>
                 <Button
                   onClick={() => setShowEvaluationModal(true)}
-                  leftSection={<IconPlay size={16} />}
+                  leftSection={<IconPlayerPlay size={16} />}
                 >
                   Run Evaluation
                 </Button>
@@ -678,7 +678,7 @@ const RagAs: React.FC = () => {
                 <Button
                   onClick={runEvaluation}
                   disabled={groundTruthPairs.length === 0}
-                  leftSection={<IconPlay size={16} />}
+                  leftSection={<IconPlayerPlay size={16} />}
                 >
                   Start Evaluation
                 </Button>

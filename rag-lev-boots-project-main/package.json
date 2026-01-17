@@ -19,6 +19,7 @@
     "tsx": "^4.19.2"
   },
   "dependencies": {
+    "@mantine/charts": "^8.3.12",
     "pdf-parse": "^2.4.5"
   }
 }
