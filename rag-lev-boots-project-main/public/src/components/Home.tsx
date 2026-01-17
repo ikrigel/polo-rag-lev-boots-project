@@ -168,8 +168,7 @@ const RAGInterface = observer(() => {
     <Flex
       w={'100%'}
       p={'xl'}
-      align={'center'}
-      style={{ justifySelf: 'center' }}
+      align={'flex-start'}
       direction={'column'}
       gap={'xl'}
     >

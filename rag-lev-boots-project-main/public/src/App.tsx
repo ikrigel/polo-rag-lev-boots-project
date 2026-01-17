@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Container, Tabs, Title, Flex } from '@mantine/core';
+import { Tabs, Title } from '@mantine/core';
 import Home from './components/Home';
 import ConversationalRAG from './components/ConversationalRAG';
 import RagAs from './components/RagAs';
@@ -9,11 +9,10 @@ function App() {
   const [activeTab, setActiveTab] = useState<string | null>('home');
 
   return (
-    <Container size="xl" py="lg">
-      <Flex direction="column" gap="lg">
-        <Title order={1}>LevBoots RAG System</Title>
+    <div style={{ padding: '20px' }}>
+      <Title order={1} mb="lg">LevBoots RAG System</Title>
 
-        <Tabs value={activeTab} onTabChange={setActiveTab}>
+      <Tabs value={activeTab} onTabChange={setActiveTab}>
           <Tabs.List>
             <Tabs.Tab value="home">Home</Tabs.Tab>
             <Tabs.Tab value="conversational">Conversational RAG</Tabs.Tab>
@@ -37,8 +36,7 @@ function App() {
             <Settings />
           </Tabs.Panel>
         </Tabs>
-      </Flex>
-    </Container>
+    </div>
   );
 }
 
