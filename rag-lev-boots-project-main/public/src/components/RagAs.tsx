@@ -242,17 +242,22 @@ const RagAs: React.FC = () => {
       const today = new Date().toISOString().split('T')[0];
       const existingTrend = scoreTrends.find((t) => t.date === today);
 
+      console.log('Updating trends - Today:', today, 'Current trends length:', scoreTrends.length);
+
       if (existingTrend) {
         existingTrend.avgScore =
           (existingTrend.avgScore * existingTrend.count + avgRagasScore) /
           (existingTrend.count + 1);
         existingTrend.count += 1;
         setScoreTrends([...scoreTrends]);
+        console.log('Updated existing trend for today');
       } else {
-        setScoreTrends([
+        const newTrends = [
           ...scoreTrends,
           { date: today, avgScore: avgRagasScore, count: 1 },
-        ]);
+        ];
+        setScoreTrends(newTrends);
+        console.log('Added new trend:', { date: today, avgScore: avgRagasScore, count: 1 });
       }
     }
 
@@ -600,22 +605,53 @@ const RagAs: React.FC = () => {
 
         <Tabs.Panel value="trends" pt="md">
           <Stack gap="md">
-            <Title order={3}>Score Trends</Title>
+            <Group justify="space-between">
+              <div>
+                <Title order={3}>Score Trends</Title>
+                <Text size="sm" c="dimmed">Total trend entries: {scoreTrends.length}</Text>
+              </div>
+            </Group>
 
             {chartData.length === 0 ? (
               <Center py="xl">
-                <Text c="dimmed">No trend data yet. Run evaluations to see trends.</Text>
+                <Stack align="center" gap="sm">
+                  <Text c="dimmed">No trend data yet. Run evaluations to see trends.</Text>
+                  <Text size="xs" c="dimmed">Stored trends: {scoreTrends.length}</Text>
+                </Stack>
               </Center>
             ) : (
-              <Paper withBorder p="md">
-                <LineChart
-                  data={chartData}
-                  dataKey="date"
-                  series={[{ name: 'Average Score', color: 'blue' }]}
-                  curveType="monotone"
-                  height={300}
-                />
-              </Paper>
+              <>
+                <Paper withBorder p="md" style={{ minHeight: '350px', width: '100%' }}>
+                  <LineChart
+                    data={chartData}
+                    dataKey="date"
+                    series={[{ name: 'Average Score', color: 'blue' }]}
+                    curveType="monotone"
+                    height={300}
+                  />
+                </Paper>
+                <Paper withBorder p="md">
+                  <Title order={4} mb="md">Trends Data</Title>
+                  <Table striped highlightOnHover>
+                    <Table.Thead>
+                      <Table.Tr>
+                        <Table.Th>Date</Table.Th>
+                        <Table.Th>Average Score</Table.Th>
+                        <Table.Th>Evaluation Count</Table.Th>
+                      </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>
+                      {scoreTrends.map((trend) => (
+                        <Table.Tr key={trend.date}>
+                          <Table.Td>{trend.date}</Table.Td>
+                          <Table.Td>{Math.round(trend.avgScore * 100) / 100}</Table.Td>
+                          <Table.Td>{trend.count}</Table.Td>
+                        </Table.Tr>
+                      ))}
+                    </Table.Tbody>
+                  </Table>
+                </Paper>
+              </>
             )}
           </Stack>
         </Tabs.Panel>
