@@ -28,10 +28,7 @@ import {
   IconPlus,
   IconTrash,
   IconPlay,
-  IconCheck,
-  IconX,
   IconDownload,
-  IconRefresh,
 } from '@tabler/icons-react';
 
 interface GroundTruthPair {

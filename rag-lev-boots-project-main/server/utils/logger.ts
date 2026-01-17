@@ -61,4 +61,6 @@ export const logger = {
   },
 };
 
+export const getLogger = () => logger;
+
 export default logger;

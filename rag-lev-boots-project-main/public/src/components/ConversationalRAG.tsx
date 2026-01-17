@@ -18,16 +18,12 @@ import {
   Tabs,
   Center,
   Loader,
-  CopyButton,
   Divider,
 } from '@mantine/core';
 import {
   IconSend,
   IconTrash,
   IconDownload,
-  IconUpload,
-  IconCopy,
-  IconCheck,
 } from '@tabler/icons-react';
 
 interface Message {

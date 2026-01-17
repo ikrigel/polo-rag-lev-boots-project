@@ -16,7 +16,6 @@ import {
   Badge,
   Alert,
   Tabs,
-  CopyButton,
   Code,
   SimpleGrid,
 } from '@mantine/core';

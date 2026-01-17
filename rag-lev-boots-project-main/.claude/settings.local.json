@@ -33,7 +33,12 @@
       "Bash(git branch:*)",
       "Bash(git push:*)",
       "Bash(git pull:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(grep:*)",
+      "Bash(for icon in \"IconX\" \"IconCheck\" \"IconRefresh\")",
+      "Bash(do echo -n \"$icon: \")",
+      "Bash(done)"
     ]
   }
 }
