@@ -1,10 +1,12 @@
 import { Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { getLogger } from '../utils/logger.ts';
 
 const logger = getLogger();
-const LOG_DIR = path.join(process.cwd(), 'logs');
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const LOG_DIR = path.join(__dirname, '../../logs');
 const FRONTEND_LOG_FILE = path.join(LOG_DIR, 'front.log');
 
 // Ensure logs directory exists
@@ -12,20 +14,38 @@ if (!fs.existsSync(LOG_DIR)) {
   fs.mkdirSync(LOG_DIR, { recursive: true });
 }
 
+logger.info('Logs controller initialized', { LOG_DIR, FRONTEND_LOG_FILE });
+
 export const receiveFrontendLog = (req: Request, res: Response) => {
   try {
-    const { timestamp, level, message, data } = req.body;
+    let logData;
+
+    // Handle both JSON body and beacon data
+    if (typeof req.body === 'string') {
+      try {
+        logData = JSON.parse(req.body);
+      } catch (e) {
+        return res.status(400).json({ error: 'Invalid JSON' });
+      }
+    } else {
+      logData = req.body;
+    }
+
+    const { timestamp, level, message, data } = logData;
 
     if (!timestamp || !level || !message) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    const logEntry = `[${timestamp}] [${level.toUpperCase()}] ${message}${
-      data ? ' ' + JSON.stringify(data) : ''
-    }\n`;
+    const dataStr = data ? ' ' + JSON.stringify(data) : '';
+    const logEntry = `[${timestamp}] [${level.toUpperCase()}] ${message}${dataStr}\n`;
 
     // Write to frontend log file
-    fs.appendFileSync(FRONTEND_LOG_FILE, logEntry, 'utf-8');
+    try {
+      fs.appendFileSync(FRONTEND_LOG_FILE, logEntry, 'utf-8');
+    } catch (fileError) {
+      logger.error('Failed to write to frontend log file', { path: FRONTEND_LOG_FILE, error: fileError });
+    }
 
     // Also log in server logs for visibility
     if (level === 'error') {

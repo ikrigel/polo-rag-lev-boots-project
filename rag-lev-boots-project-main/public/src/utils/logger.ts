@@ -8,16 +8,23 @@ interface LogEntry {
   data?: any;
 }
 
-const sendLogToBackend = async (entry: LogEntry) => {
+const sendLogToBackend = (entry: LogEntry) => {
+  // Use beacon API for reliable delivery even on page unload
   try {
-    await fetch(LOG_ENDPOINT, {
+    navigator.sendBeacon(
+      LOG_ENDPOINT,
+      JSON.stringify(entry)
+    );
+  } catch (err) {
+    // Fallback to async fetch
+    fetch(LOG_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(entry),
+      keepalive: true,
+    }).catch(err => {
+      console.error('[Logger] Failed to send log to backend:', err);
     });
-  } catch (err) {
-    // Silently fail if backend is not available
-    console.error('Failed to send log to backend:', err);
   }
 };
 
@@ -69,11 +76,12 @@ export const logger = {
 
 // Capture global errors
 window.addEventListener('error', (event) => {
-  logger.error('Global error', {
+  logger.error('Global error caught', {
     message: event.message,
     filename: event.filename,
     lineno: event.lineno,
     colno: event.colno,
+    stack: event.error?.stack,
   });
 });
 
@@ -81,5 +89,6 @@ window.addEventListener('error', (event) => {
 window.addEventListener('unhandledrejection', (event) => {
   logger.error('Unhandled promise rejection', {
     reason: event.reason,
+    promise: event.promise,
   });
 });
