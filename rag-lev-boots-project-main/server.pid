@@ -1,0 +1,1 @@
+ sleep 10 curl -s -X POST http://localhost:3030/api/load_data -H Content-Type: application/json --max-time 600

@@ -1,0 +1,9 @@
+{
+  "model": "haiku",
+  "permissions": {
+    "allow": [
+      "Bash(claude-code:*)"
+    ]
+    
+  }
+}

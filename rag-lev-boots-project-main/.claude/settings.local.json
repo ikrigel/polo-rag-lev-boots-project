@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm run migrate:*)",
+      "Bash(timeout 15 npm run dev:*)",
+      "Bash(curl:*)",
+      "Bash(tasklist:*)",
+      "Bash(netstat:*)",
+      "Bash(taskkill:*)",
+      "Bash(ping:*)",
+      "Bash(true curl -s -X POST http://localhost:3030/api/load_data -H \"Content-Type: application/json\" -m 600)",
+      "Bash(true echo \"Testing data loading...\" timeout 600 curl -X POST http://localhost:3030/api/load_data -H \"Content-Type: application/json\" --max-time 600)",
+      "Bash(true timeout 600 curl -X POST http://localhost:3030/api/load_data -H \"Content-Type: application/json\")",
+      "Bash(powershell -Command:*)",
+      "Bash(npm run dev:*)",
+      "Bash(psql:*)",
+      "Bash(node verify-kb.js:*)",
+      "Bash(npx tsx:*)",
+      "Bash(if [ -z \"$PERPLEXITY_API_KEY\" ])",
+      "Bash(then echo \"❌ PERPLEXITY_API_KEY not set\")",
+      "Bash(else echo \"✅ PERPLEXITY_API_KEY is set\")",
+      "Bash(fi)",
+      "Bash(findstr:*)",
+      "Bash(kill:*)",
+      "Bash(npm run build:*)",
+      "WebSearch",
+      "Bash(python3:*)",
+      "Bash(git config:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}
