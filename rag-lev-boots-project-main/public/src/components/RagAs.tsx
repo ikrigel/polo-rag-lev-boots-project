@@ -620,37 +620,30 @@ const RagAs: React.FC = () => {
                 </Stack>
               </Center>
             ) : (
-              <>
-                <Paper withBorder p="md">
-                  <BarChart
-                    data={chartData}
-                    dataKey="date"
-                    series={[{ name: 'Average Score', color: 'blue' }]}
-                    height={350}
-                  />
-                </Paper>
-                <Paper withBorder p="md" mt="md">
-                  <Title order={4} mb="md">Trends Data</Title>
-                  <Table striped highlightOnHover>
-                    <Table.Thead>
-                      <Table.Tr>
-                        <Table.Th>Date</Table.Th>
-                        <Table.Th>Average Score</Table.Th>
-                        <Table.Th>Evaluation Count</Table.Th>
+              <Paper withBorder p="md">
+                <Table striped highlightOnHover>
+                  <Table.Thead>
+                    <Table.Tr>
+                      <Table.Th>Date</Table.Th>
+                      <Table.Th>Average Score</Table.Th>
+                      <Table.Th>Evaluation Count</Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {scoreTrends.map((trend) => (
+                      <Table.Tr key={trend.date}>
+                        <Table.Td>{trend.date}</Table.Td>
+                        <Table.Td>
+                          <Badge color={getScoreColor(trend.avgScore)}>
+                            {Math.round(trend.avgScore * 100) / 100}
+                          </Badge>
+                        </Table.Td>
+                        <Table.Td>{trend.count}</Table.Td>
                       </Table.Tr>
-                    </Table.Thead>
-                    <Table.Tbody>
-                      {scoreTrends.map((trend) => (
-                        <Table.Tr key={trend.date}>
-                          <Table.Td>{trend.date}</Table.Td>
-                          <Table.Td>{Math.round(trend.avgScore * 100) / 100}</Table.Td>
-                          <Table.Td>{trend.count}</Table.Td>
-                        </Table.Tr>
-                      ))}
-                    </Table.Tbody>
-                  </Table>
-                </Paper>
-              </>
+                    ))}
+                  </Table.Tbody>
+                </Table>
+              </Paper>
             )}
           </Stack>
         </Tabs.Panel>
