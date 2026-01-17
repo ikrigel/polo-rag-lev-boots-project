@@ -25,6 +25,7 @@ export const receiveFrontendLog = (req: Request, res: Response) => {
       try {
         logData = JSON.parse(req.body);
       } catch (e) {
+        logger.error('Failed to parse JSON from beacon data', { body: req.body, error: e });
         return res.status(400).json({ error: 'Invalid JSON' });
       }
     } else {
@@ -34,6 +35,7 @@ export const receiveFrontendLog = (req: Request, res: Response) => {
     const { timestamp, level, message, data } = logData;
 
     if (!timestamp || !level || !message) {
+      logger.error('Missing required fields in log', { logData, timestamp, level, message });
       return res.status(400).json({ error: 'Missing required fields' });
     }
 

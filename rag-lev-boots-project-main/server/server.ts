@@ -15,7 +15,9 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3030;
 
+// Handle both JSON and text payloads (for beacon API)
 app.use(express.json());
+app.use(express.text());
 
 // Core RAG endpoints
 app.use('/api', ragRoutes);
