@@ -166,15 +166,14 @@ const RAGInterface = observer(() => {
 
   return (
     <Flex
-      w={'80vw'}
-      h={'100vh'}
+      w={'100%'}
       p={'xl'}
       align={'center'}
       style={{ justifySelf: 'center' }}
       direction={'column'}
       gap={'xl'}
     >
-      <Title order={2}>LevBoots Brain</Title>
+      <Title order={3}>Basic RAG Interface</Title>
 
       {!isDataLoaded && (
         <Alert

@@ -114,11 +114,12 @@ npm run dev
 
 Open: **http://localhost:5173**
 
-You should see the RAG application with 3 tabs:
-1. **Home** - Basic RAG interface
-2. **Conversational RAG** - Multi-turn conversations
-3. **RAGAS Evaluation** - Quality metrics
-4. **Settings** - Configuration
+You should see the RAG application with 4 tabs at the top:
+
+1. **Home** - Basic RAG interface for asking questions
+2. **Conversational RAG** - Multi-turn conversations with context awareness
+3. **RAGAS Evaluation** - Quality metrics and evaluation
+4. **Settings** - Configuration and advanced parameters
 
 ---
 
