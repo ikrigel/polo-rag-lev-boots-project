@@ -6,6 +6,7 @@ import ragRoutes from './routes/ragRoutes';
 import conversationalRoutes from './routes/conversationalRoutes';
 import ragasRoutes from './routes/ragasRoutes';
 import settingsRoutes from './routes/settingsRoutes';
+import logsRoutes from './routes/logsRoutes';
 import { initializeDB } from './models/index';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -27,6 +28,9 @@ app.use('/api/ragas', ragasRoutes);
 
 // Settings endpoints
 app.use('/api/settings', settingsRoutes);
+
+// Logs endpoints
+app.use('/api', logsRoutes);
 
 app.use(express.static(path.join(__dirname, '../public/dist')));
 
