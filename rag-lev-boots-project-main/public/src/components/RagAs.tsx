@@ -285,6 +285,17 @@ const RagAs: React.FC = () => {
     return 'red';
   };
 
+  const clearEvaluationResults = () => {
+    setEvaluationMetrics({
+      totalEvaluations: 0,
+      avgRagasScore: 0,
+      avgFaithfulness: 0,
+      avgRelevance: 0,
+      avgCoherence: 0,
+      results: [],
+    });
+  };
+
   const chartData =
     scoreTrends.length > 0
       ? scoreTrends.map((trend) => ({
@@ -517,7 +528,18 @@ const RagAs: React.FC = () => {
 
         <Tabs.Panel value="results" pt="md">
           <Stack gap="md">
-            <Title order={3}>Recent Evaluation Results</Title>
+            <Group justify="space-between">
+              <Title order={3}>Recent Evaluation Results</Title>
+              <Button
+                color="red"
+                variant="light"
+                disabled={evaluationMetrics.results.length === 0}
+                onClick={clearEvaluationResults}
+                leftSection={<IconTrash size={16} />}
+              >
+                Clear Results
+              </Button>
+            </Group>
 
             {evaluationMetrics.results.length === 0 ? (
               <Center py="xl">
@@ -589,7 +611,7 @@ const RagAs: React.FC = () => {
                 <LineChart
                   data={chartData}
                   dataKey="date"
-                  series={[{ name: 'Average Score', color: 'blue' }]}
+                  series={[{ name: 'score', color: 'blue' }]}
                   curveType="monotone"
                   height={300}
                 />
