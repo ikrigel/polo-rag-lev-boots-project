@@ -621,12 +621,13 @@ const RagAs: React.FC = () => {
               </Center>
             ) : (
               <>
-                <Paper withBorder p="md" style={{ minHeight: '350px', width: '100%' }}>
+                <Paper withBorder p="md">
                   <LineChart
                     data={chartData}
                     dataKey="date"
                     series={[{ name: 'Average Score', color: 'blue' }]}
                     curveType="monotone"
+                    width="100%"
                     height={300}
                   />
                 </Paper>
