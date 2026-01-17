@@ -300,7 +300,7 @@ const RagAs: React.FC = () => {
     scoreTrends.length > 0
       ? scoreTrends.map((trend) => ({
           date: trend.date,
-          score: Math.round(trend.avgScore * 100) / 100,
+          "Average Score": Math.round(trend.avgScore * 100) / 100,
         }))
       : [];
 
@@ -611,7 +611,7 @@ const RagAs: React.FC = () => {
                 <LineChart
                   data={chartData}
                   dataKey="date"
-                  series={[{ name: 'score', color: 'blue' }]}
+                  series={[{ name: 'Average Score', color: 'blue' }]}
                   curveType="monotone"
                   height={300}
                 />
