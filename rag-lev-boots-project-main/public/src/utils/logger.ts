@@ -92,3 +92,19 @@ window.addEventListener('unhandledrejection', (event) => {
     promise: event.promise,
   });
 });
+
+// Intercept console.error to capture all error logs
+const originalConsoleError = console.error;
+console.error = function (...args: any[]) {
+  originalConsoleError.apply(console, args);
+
+  // Log to backend if it looks like an error we should track
+  const message = args[0]?.toString?.() || JSON.stringify(args[0]);
+  if (message && !message.includes('[Logger]')) {
+    logger.error('Console error', {
+      args: args.map(arg =>
+        typeof arg === 'object' ? JSON.stringify(arg) : arg
+      )
+    });
+  }
+};

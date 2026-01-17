@@ -20,10 +20,9 @@ import {
   Loader,
   Tabs,
   SimpleGrid,
-  LineChart,
-  BarChart,
   Select,
 } from '@mantine/core';
+import { LineChart, BarChart } from '@mantine/charts';
 import {
   IconPlus,
   IconTrash,
