@@ -8,6 +8,9 @@ function App() {
   return (
     <Container size="xl" py="xl">
       <h1 style={{ marginBottom: '30px' }}>LevBoots RAG System</h1>
+      <h1 style={{ marginBottom: '20px', fontSize: '30px', fontWeight: 'normal' }}>
+        🐕Polo Love Coding with Jona🐕
+      </h1>
       <Tabs defaultValue="home">
         <Tabs.List>
           <Tabs.Tab value="home">Home</Tabs.Tab>
