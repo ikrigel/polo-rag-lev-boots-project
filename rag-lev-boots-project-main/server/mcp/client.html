@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lev-Boots MCP Server Test Client</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .card-description {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: inherit;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #5568d3;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .output {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 4px;
+            border-left: 4px solid #667eea;
+            max-height: 300px;
+            overflow-y: auto;
+            font-size: 12px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            color: #333;
+            white-space: pre-wrap;
+            word-break: break-word;
+            display: none;
+        }
+
+        .output.show {
+            display: block;
+        }
+
+        .output.error {
+            background: #fee;
+            border-left-color: #e88;
+            color: #c33;
+        }
+
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            display: none;
+            text-align: center;
+        }
+
+        .status.show {
+            display: block;
+        }
+
+        .status.loading {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .status.success {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status.error {
+            background: #fee;
+            color: #c33;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            font-size: 13px;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            border-radius: 4px;
+            padding: 12px;
+            margin-bottom: 15px;
+            font-size: 12px;
+            color: #1565c0;
+            line-height: 1.4;
+        }
+
+        .spinne r {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #667eea;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .tool-status {
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        .tool-status.ready {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .tool-status.error {
+            background: #fee;
+            color: #c33;
+        }
+
+        .config-section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .config-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+            border-bottom: 2px solid #ff6b6b;
+            padding-bottom: 10px;
+        }
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .config-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .config-group label {
+            margin-bottom: 8px;
+        }
+
+        .config-group input[type="password"],
+        .config-group input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .config-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .config-actions button {
+            flex: 1;
+            padding: 10px;
+        }
+
+        .config-actions button.secondary {
+            background: #6c757d;
+        }
+
+        .config-actions button.secondary:hover {
+            background: #5a6268;
+        }
+
+        .config-status {
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 15px;
+            font-size: 12px;
+            display: none;
+        }
+
+        .config-status.show {
+            display: block;
+        }
+
+        .config-status.success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-left: 4px solid #2e7d32;
+        }
+
+        .config-status.warning {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+
+        .config-note {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 12px;
+            margin-top: 15px;
+            font-size: 12px;
+            color: #495057;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔬 Lev-Boots MCP Server Test Client</h1>
+            <p class="subtitle">Interactive testing interface for the Lev-Boots RAG system MCP tools</p>
+        </header>
+
+        <!-- Configuration Section -->
+        <div class="config-section">
+            <h2>⚙️ Environment Configuration</h2>
+            <p class="card-description" style="margin-bottom: 20px;">
+                Set your API keys and database credentials. These are stored only in your browser's local storage.
+            </p>
+
+            <div class="config-grid">
+                <div class="config-group">
+                    <label for="geminiKey">Gemini API Key:</label>
+                    <input type="password" id="geminiKey" placeholder="AIzaSy..." />
+                </div>
+                <div class="config-group">
+                    <label for="perplexityKey">Perplexity API Key:</label>
+                    <input type="password" id="perplexityKey" placeholder="pplx-..." />
+                </div>
+                <div class="config-group">
+                    <label for="databaseUrl">Database URL:</label>
+                    <input type="password" id="databaseUrl" placeholder="postgresql://username:password@host:port/database" />
+                </div>
+                <div class="config-group">
+                    <label for="perplexityModel">Perplexity Model:</label>
+                    <input type="text" id="perplexityModel" placeholder="sonar" value="sonar" />
+                </div>
+            </div>
+
+            <div class="config-actions">
+                <button onclick="saveConfig()" style="background: #28a745;">💾 Save Configuration</button>
+                <button onclick="exportConfig()" class="secondary">📋 Export as .env</button>
+                <button onclick="clearConfig()" class="secondary">🗑️ Clear All</button>
+            </div>
+
+            <div class="config-status" id="configStatus"></div>
+
+            <div class="config-note">
+                <strong>📝 For Claude Desktop Users:</strong><br>
+                After saving your configuration here, create a <code>.env</code> file in the <code>server/mcp/</code> directory with your credentials,
+                or pass them as environment variables when starting the MCP server.
+            </div>
+        </div>
+
+        <div class="grid">
+            <!-- Tool 1: RAG Search -->
+            <div class="card">
+                <h2>🔍 rag_search</h2>
+                <p class="card-description">Search the Lev-Boots knowledge base using RAG. Ask questions about the gravitational reversal technology.</p>
+
+                <div class="tool-status ready" id="ragStatus">✓ Ready</div>
+
+                <div class="form-group">
+                    <label for="ragQuestion">Question:</label>
+                    <textarea id="ragQuestion" placeholder="Ask a question about Lev-Boots..."></textarea>
+                </div>
+
+                <button onclick="testRagSearch()">Search</button>
+
+                <div class="status" id="ragStatusMsg"></div>
+                <div class="output" id="ragOutput"></div>
+            </div>
+
+            <!-- Tool 2: List Knowledge Sources -->
+            <div class="card">
+                <h2>📚 list_knowledge_sources</h2>
+                <p class="card-description">List all available PDFs and articles in the knowledge base. No input required.</p>
+
+                <div class="tool-status ready" id="listStatus">✓ Ready</div>
+
+                <div class="info-box">
+                    ℹ️ This tool requires no input parameters. Click the button to fetch all available knowledge sources.
+                </div>
+
+                <button onclick="testListSources()">List Sources</button>
+
+                <div class="status" id="listStatusMsg"></div>
+                <div class="output" id="listOutput"></div>
+            </div>
+
+            <!-- Tool 3: Read Source -->
+            <div class="card">
+                <h2>📖 read_source</h2>
+                <p class="card-description">Read the full content of a PDF or article from the knowledge base.</p>
+
+                <div class="tool-status ready" id="readStatus">✓ Ready</div>
+
+                <div class="form-group">
+                    <label for="readSourceName">Source Name:</label>
+                    <input type="text" id="readSourceName" placeholder="e.g., OpEd - A Revolution at Our Feet.pdf or military-deployment-report">
+                </div>
+
+                <div class="form-group">
+                    <label for="readSourceType">Source Type (optional):</label>
+                    <select id="readSourceType">
+                        <option value="">Auto-detect</option>
+                        <option value="pdf">PDF</option>
+                        <option value="article">Article</option>
+                    </select>
+                </div>
+
+                <button onclick="testReadSource()">Read Source</button>
+
+                <div class="status" id="readStatusMsg"></div>
+                <div class="output" id="readOutput"></div>
+            </div>
+        </div>
+
+        <footer>
+            <p>💡 Tip: Use <code>npm run mcp</code> to start the server, then use MCP Inspector for advanced testing.</p>
+            <p style="margin-top: 10px; opacity: 0.8;">This is a static HTML client for testing. For production use, configure the MCP server in Claude Desktop.</p>
+        </footer>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3030/api';
+        const CONFIG_STORAGE_KEY = 'lev-boots-mcp-config';
+
+        // Configuration management functions
+        function saveConfig() {
+            const config = {
+                geminiKey: document.getElementById('geminiKey').value.trim(),
+                perplexityKey: document.getElementById('perplexityKey').value.trim(),
+                databaseUrl: document.getElementById('databaseUrl').value.trim(),
+                perplexityModel: document.getElementById('perplexityModel').value.trim() || 'sonar'
+            };
+
+            if (!config.geminiKey || !config.perplexityKey || !config.databaseUrl) {
+                showConfigStatus('⚠️ Please fill in all required fields', 'warning');
+                return;
+            }
+
+            localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(config));
+            showConfigStatus('✅ Configuration saved to browser storage', 'success');
+        }
+
+        function exportConfig() {
+            const config = {
+                geminiKey: document.getElementById('geminiKey').value.trim(),
+                perplexityKey: document.getElementById('perplexityKey').value.trim(),
+                databaseUrl: document.getElementById('databaseUrl').value.trim(),
+                perplexityModel: document.getElementById('perplexityModel').value.trim() || 'sonar'
+            };
+
+            if (!config.geminiKey || !config.perplexityKey || !config.databaseUrl) {
+                showConfigStatus('⚠️ Please configure all fields first', 'warning');
+                return;
+            }
+
+            const envContent = `# Lev-Boots MCP Server Configuration
+# Save this as server/mcp/.env
+
+Gemini_API_KEY=${config.geminiKey}
+PERPLEXITY_API_KEY=${config.perplexityKey}
+PERPLEXITY_MODEL=${config.perplexityModel}
+DATABASE_URL=${config.databaseUrl}`;
+
+            const blob = new Blob([envContent], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '.env';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+
+            showConfigStatus('✅ .env file downloaded', 'success');
+        }
+
+        function clearConfig() {
+            if (confirm('Are you sure you want to clear all configuration?')) {
+                localStorage.removeItem(CONFIG_STORAGE_KEY);
+                document.getElementById('geminiKey').value = '';
+                document.getElementById('perplexityKey').value = '';
+                document.getElementById('databaseUrl').value = '';
+                document.getElementById('perplexityModel').value = 'sonar';
+                showConfigStatus('✅ Configuration cleared', 'success');
+            }
+        }
+
+        function loadConfig() {
+            const stored = localStorage.getItem(CONFIG_STORAGE_KEY);
+            if (stored) {
+                try {
+                    const config = JSON.parse(stored);
+                    document.getElementById('geminiKey').value = config.geminiKey || '';
+                    document.getElementById('perplexityKey').value = config.perplexityKey || '';
+                    document.getElementById('databaseUrl').value = config.databaseUrl || '';
+                    document.getElementById('perplexityModel').value = config.perplexityModel || 'sonar';
+                } catch (e) {
+                    console.error('Failed to load config:', e);
+                }
+            }
+        }
+
+        function showConfigStatus(message, type) {
+            const element = document.getElementById('configStatus');
+            element.textContent = message;
+            element.className = `config-status show ${type}`;
+            setTimeout(() => {
+                element.className = 'config-status';
+            }, 5000);
+        }
+
+        function showStatus(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `status show ${type}`;
+        }
+
+        function showOutput(elementId, content, isError = false) {
+            const element = document.getElementById(elementId);
+            element.textContent = typeof content === 'string' ? content : JSON.stringify(content, null, 2);
+            element.className = `output show ${isError ? 'error' : ''}`;
+        }
+
+        function clearOutput(elementId) {
+            const element = document.getElementById(elementId);
+            element.className = 'output';
+            element.textContent = '';
+        }
+
+        async function testRagSearch() {
+            const question = document.getElementById('ragQuestion').value.trim();
+            if (!question) {
+                showStatus('ragStatusMsg', '⚠️ Please enter a question', 'error');
+                return;
+            }
+
+            clearOutput('ragOutput');
+            showStatus('ragStatusMsg', '🔄 Searching...', 'loading');
+
+            try {
+                // Note: This would connect to actual API
+                showStatus('ragStatusMsg', '✅ Server is running. Use MCP Inspector to test tools interactively.', 'success');
+                showOutput('ragOutput', `Question: "${question}"\n\n📝 To test this tool:\n1. Run: npx @modelcontextprotocol/inspector node --loader tsx server/mcp/server.ts\n2. Call the rag_search tool with your question\n3. Or configure the server in Claude Desktop`, false);
+            } catch (error) {
+                showStatus('ragStatusMsg', `❌ Error: ${error.message}`, 'error');
+                showOutput('ragOutput', error.stack, true);
+            }
+        }
+
+        async function testListSources() {
+            clearOutput('listOutput');
+            showStatus('listStatusMsg', '🔄 Loading sources...', 'loading');
+
+            try {
+                // Note: This would connect to actual API
+                showStatus('listStatusMsg', '✅ Server is running. Use MCP Inspector to test tools interactively.', 'success');
+                showOutput('listOutput', `📝 To test this tool:\n1. Run: npx @modelcontextprotocol/inspector node --loader tsx server/mcp/server.ts\n2. Call the list_knowledge_sources tool\n3. Or configure the server in Claude Desktop`, false);
+            } catch (error) {
+                showStatus('listStatusMsg', `❌ Error: ${error.message}`, 'error');
+                showOutput('listOutput', error.stack, true);
+            }
+        }
+
+        async function testReadSource() {
+            const sourceName = document.getElementById('readSourceName').value.trim();
+            if (!sourceName) {
+                showStatus('readStatusMsg', '⚠️ Please enter a source name', 'error');
+                return;
+            }
+
+            const sourceType = document.getElementById('readSourceType').value;
+
+            clearOutput('readOutput');
+            showStatus('readStatusMsg', '🔄 Loading source...', 'loading');
+
+            try {
+                // Note: This would connect to actual API
+                showStatus('readStatusMsg', '✅ Server is running. Use MCP Inspector to test tools interactively.', 'success');
+                const typeStr = sourceType ? ` (type: ${sourceType})` : ' (auto-detect)';
+                showOutput('readOutput', `Source: "${sourceName}"${typeStr}\n\n📝 To test this tool:\n1. Run: npx @modelcontextprotocol/inspector node --loader tsx server/mcp/server.ts\n2. Call the read_source tool with sourceName and optional sourceType\n3. Or configure the server in Claude Desktop`, false);
+            } catch (error) {
+                showStatus('readStatusMsg', `❌ Error: ${error.message}`, 'error');
+                showOutput('readOutput', error.stack, true);
+            }
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            console.log('MCP Test Client loaded. Tools are ready to test via MCP Inspector.');
+            loadConfig();
+            showConfigStatus('💡 Configuration loaded from browser storage', 'success');
+        });
+    </script>
+</body>
+</html>

@@ -38,7 +38,9 @@
       "Bash(grep:*)",
       "Bash(for icon in \"IconX\" \"IconCheck\" \"IconRefresh\")",
       "Bash(do echo -n \"$icon: \")",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(timeout 5 npm run:*)",
+      "Bash(timeout 8 npm run mcp:*)"
     ]
   }
 }
